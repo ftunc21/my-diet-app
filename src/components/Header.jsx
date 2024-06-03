@@ -1,24 +1,32 @@
+// src/components/Header.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
+import './Header.css';
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Header = () => {
-  return (
-    <header className="bg-white shadow">
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        <h1 className="text-3xl font-bold text-orange-500">MealMaster</h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li><Link to="/">Anasayfa</Link></li>
-            <li><Link to="/create-diet">Diyet Oluştur</Link></li>
-            <li><Link to="/diet-plans">Diyetler</Link></li>
-            <li><Link to="/recipes">Yemek Tarifleri</Link></li>
-            <li><Link to="/blog">Blog</Link></li>
-            <li><Link to="/auth">Log in / Sign Up</Link></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-  );
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    return (
+        <header className="header">
+            <button className="header-logo" onClick={() => navigate('/')}>MealMaster</button>
+            <nav className="header-nav">
+                <button onClick={() => navigate('/diet-plans')}>Diyetler</button>
+                <button onClick={() => navigate('/reviews')}>Tarifler</button>
+                <button onClick={() => navigate('/blog')}>Blog</button>
+                {user ? (
+                    <>
+                        <span className="user-name">{user.username}</span>
+                        <button className="auth-button" onClick={logout}>Logout</button>
+                    </>
+                ) : (
+                    <button className="auth-button" onClick={() => navigate('/auth')}> <FaRegUserCircle /></button>
+                )}
+            </nav>
+        </header>
+    );
 };
 
 export default Header;
