@@ -8,7 +8,15 @@ import DietPlans from './components/DietPlans';
 import Recipes from './components/Recipes';
 import Blog from './components/Blog';
 import Auth from './components/Auth';
+import AddRecipe from './components/AddRecipe';
 import { AuthProvider, useAuth } from './AuthContext';
+import './styles.css';
+import Footer from './components/Footer';
+
+
+
+
+
 
 const PrivateRoute = ({ element, ...rest }) => {
     const { user } = useAuth();
@@ -22,11 +30,14 @@ const App = () => {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/create-diet" element={<PrivateRoute element={<CreateDiet />} />} />
-                    <Route path="/diet-plans" element={<PrivateRoute element={<DietPlans />} />} />
-                    <Route path="/recipes" element={<PrivateRoute element={<Recipes />} />} />
-                    <Route path="/blog" element={<PrivateRoute element={<Blog />} />} />
+                    <Route path="/create-diet" element={<CreateDiet />} />
+                    <Route path="/diet-plans" element={<DietPlans />} />
+                    <Route path="/recipes" element={<Recipes />} />
+                    <Route path="/blog" element={<Blog />} />
                     <Route path="/auth" element={<Auth />} />
+                    <Route path="/footer" element={<Footer />} />
+                    
+                    <Route path="/add-recipe" element={<AddRecipe />} />
                 </Routes>
             </Router>
         </AuthProvider>

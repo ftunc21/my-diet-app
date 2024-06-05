@@ -14,7 +14,7 @@ const Header = () => {
             <button className="header-logo" onClick={() => navigate('/')}>MealMaster</button>
             <nav className="header-nav">
                 <button onClick={() => navigate('/diet-plans')}>Diyetler</button>
-                <button onClick={() => navigate('/reviews')}>Tarifler</button>
+                <button onClick={() => navigate('/recipes')}>Tarifler</button>
                 <button onClick={() => navigate('/blog')}>Blog</button>
                 {user ? (
                     <>

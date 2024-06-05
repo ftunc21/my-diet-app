@@ -1,6 +1,7 @@
 /* src/components/Header.css */
 .header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
@@ -9,6 +10,7 @@
 }
 
 .header-logo {
+    width: 10%;
     font-size: 24px;
     font-weight: bold;
     color: #ff5722;
@@ -18,7 +20,7 @@
     padding: 10px 15px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    margin-right: 1200px; /* Margin added to ensure space between logo and nav */
+   
     display: inline-block; /* Ensure the button does not stretch */
 }
 
@@ -30,15 +32,16 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-left: auto;
 }
 
 .header-nav button, .auth-button {
     text-decoration: none;
-    color: #fff;
+    color: #ff5722;
     font-weight: 500;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: #ff5722;
+    /* background-color: #ff5722; */
     transition: background-color 0.3s ease;
     cursor: pointer;
     border: none;
