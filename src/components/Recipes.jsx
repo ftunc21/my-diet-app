@@ -1,7 +1,10 @@
 // src/components/Recipes.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Recipes.css'; // Assume you have a CSS file for styling
+import { Button, Card, Rate, Tag } from 'antd';
+
+
+const { Meta } = Card;
 
 const Recipes = () => {
   const navigate = useNavigate();
@@ -39,26 +42,30 @@ const Recipes = () => {
   return (
     <div className="container mx-auto px-6 py-12">
       <h2 className="text-4xl font-bold mb-4">Yemek Tarifleri</h2>
-      <div className="recipes-list">
+      <div className="recipes-list grid gap-6">
         {recipes.map((recipe, index) => (
-          <div key={index} className="recipe-card">
-            <img src={recipe.image} alt={recipe.title} className="recipe-image" />
-            <div className="recipe-info">
-              <h3 className="recipe-title">{recipe.title}</h3>
-              <div className="recipe-ratings">⭐ {recipe.ratings} ratings</div>
-              <p className="recipe-description">{recipe.description}</p>
-              <div className="recipe-meta">
-                <span className="recipe-time">{recipe.time}</span>
-                <span className="recipe-difficulty">{recipe.difficulty}</span>
-                {recipe.vegetarian && <span className="recipe-vegetarian">Vegetarian</span>}
-              </div>
+          <Card
+            key={index}
+            hoverable
+            cover={<img alt={recipe.title} src={recipe.image} />}
+            className="recipe-card"
+          >
+            <Meta title={recipe.title} description={recipe.description} />
+            <div className="mt-4">
+              <Rate disabled defaultValue={recipe.ratings / 100} />
+              <span className="recipe-ratings ml-2">{recipe.ratings} ratings</span>
             </div>
-          </div>
+            <div className="recipe-meta mt-2">
+              <Tag color="blue">{recipe.time}</Tag>
+              <Tag color="green">{recipe.difficulty}</Tag>
+              {recipe.vegetarian && <Tag color="green">Vegetarian</Tag>}
+            </div>
+          </Card>
         ))}
       </div>
-      <button className="add-recipe-button" onClick={() => navigate('/add-recipe')}>
+      <Button type="primary" className="mt-6" onClick={() => navigate('/add-recipe')}>
         Tarif Ekle
-      </button>
+      </Button>
     </div>
   );
 };

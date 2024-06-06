@@ -12,9 +12,11 @@ import AddRecipe from './components/AddRecipe';
 import RecipeSlider from './components/RecipeSlider';
 import DietSlider from './components/DietSlider';
 import { AuthProvider, useAuth } from './AuthContext';
+import { Layout } from 'antd';
 import './styles.css';
 import Footer from './components/Footer';
 
+const { Content } = Layout;
 
 const PrivateRoute = ({ element, ...rest }) => {
     const { user } = useAuth();
@@ -25,9 +27,9 @@ const App = () => {
     return (
         <AuthProvider>
             <Router>
-                <div className="flex flex-col min-h-screen">
+                <Layout className="flex flex-col min-h-screen">
                     <Header />
-                    <div className="flex-grow">
+                    <Content className="flex-grow">
                         <Routes>
                             <Route path="/" element={<><Home /><RecipeSlider /><DietSlider/></>} />
                             <Route path="/create-diet" element={<CreateDiet />} />
@@ -37,9 +39,9 @@ const App = () => {
                             <Route path="/auth" element={<Auth />} />
                             <Route path="/add-recipe" element={<AddRecipe />} />
                         </Routes>
-                    </div>
+                    </Content>
                     <Footer />
-                </div>
+                </Layout>
             </Router>
         </AuthProvider>
     );

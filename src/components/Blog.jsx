@@ -1,5 +1,9 @@
 // src/components/Blog.jsx
 import React, { useState } from 'react';
+import { Button, Input, Card, Col, Row, Typography, Form, Modal } from 'antd';
+
+const { Title, Text } = Typography;
+const { TextArea } = Input;
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -8,8 +12,7 @@ const Blog = () => {
   const [topic, setTopic] = useState('');
   const [isFormVisible, setFormVisible] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const newPost = { title, content, topic };
     setPosts([...posts, newPost]);
     setTitle('');
@@ -20,74 +23,73 @@ const Blog = () => {
 
   return (
     <div className="container mx-auto px-6 py-12">
-      <h2 className="text-4xl font-bold mb-4">Blog</h2>
-      <div className="flex">
-        <div className="w-3/4">
+      <Title level={2} className="mb-4">Blog</Title>
+      <Row gutter={16}>
+        <Col span={18}>
           {posts.map((post, index) => (
-            <div key={index} className="mb-6 border p-4 rounded">
-              <h3 className="text-2xl font-bold">{post.title}</h3>
-              <p className="text-gray-700">{post.content}</p>
-              <p className="text-gray-500 italic">Konu: {post.topic}</p>
-            </div>
+            <Card key={index} className="mb-4">
+              <Title level={3}>{post.title}</Title>
+              <Text>{post.content}</Text>
+              <div className="mt-2">
+                <Text type="secondary">Konu: {post.topic}</Text>
+              </div>
+            </Card>
           ))}
-        </div>
-        <div className="w-1/4">
-          <button
-            onClick={() => setFormVisible(!isFormVisible)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        </Col>
+        <Col span={6}>
+          <Button
+            type="primary"
+            onClick={() => setFormVisible(true)}
+            className="mb-4"
           >
             Blog Ekle
-          </button>
-          {isFormVisible && (
-            <form onSubmit={handleSubmit} className="mt-4">
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-                  Başlık
-                </label>
-                <input
-                  type="text"
-                  id="title"
+          </Button>
+          <Modal
+            title="Yeni Blog Ekle"
+            visible={isFormVisible}
+            onCancel={() => setFormVisible(false)}
+            footer={null}
+          >
+            <Form layout="vertical" onFinish={handleSubmit}>
+              <Form.Item
+                label="Başlık"
+                name="title"
+                rules={[{ required: true, message: 'Başlık gerekli' }]}
+              >
+                <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="content">
-                  İçerik
-                </label>
-                <textarea
-                  id="content"
+              </Form.Item>
+              <Form.Item
+                label="İçerik"
+                name="content"
+                rules={[{ required: true, message: 'İçerik gerekli' }]}
+              >
+                <TextArea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="topic">
-                  Konu
-                </label>
-                <input
-                  type="text"
-                  id="topic"
+                />
+              </Form.Item>
+              <Form.Item
+                label="Konu"
+                name="topic"
+                rules={[{ required: true, message: 'Konu gerekli' }]}
+              >
+                <Input
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
                 />
-              </div>
-              <button
-                type="submit"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Ekle
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Ekle
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
+        </Col>
+      </Row>
     </div>
   );
 };

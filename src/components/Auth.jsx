@@ -1,7 +1,8 @@
 // src/components/Auth.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
-import './Auth.css';
+import { Input, Button, Checkbox } from 'antd';
+
 
 const Auth = () => {
     const { login, register } = useAuth();
@@ -25,62 +26,64 @@ const Auth = () => {
     };
 
     return (
-        <div className="auth-container">
-            <div className="auth-box">
-                <div className="auth-content">
-                    <h2>{isLogin ? 'Giriş Yap' : 'Üye Ol'}</h2>
+        <div className="auth-container flex justify-center items-center h-screen bg-gray-100">
+            <div className="auth-box flex bg-white p-10 rounded-2xl shadow-lg max-w-4xl w-full">
+                <div className="auth-content flex-1 pr-5">
+                    <h2 className="mb-5">{isLogin ? 'Giriş Yap' : 'Üye Ol'}</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="input-group">
-                            <label>Kullanıcı Adı</label>
-                            <input
+                        <div className="input-group mb-4">
+                            <label className="block mb-1">Kullanıcı Adı</label>
+                            <Input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
                         {!isLogin && (
-                            <div className="input-group">
-                                <label>Email</label>
-                                <input
+                            <div className="input-group mb-4">
+                                <label className="block mb-1">Email</label>
+                                <Input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                         )}
-                        <div className="input-group">
-                            <label>Şifre</label>
-                            <input
-                                type="password"
+                        <div className="input-group mb-4">
+                            <label className="block mb-1">Şifre</label>
+                            <Input.Password
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
                         {!isLogin && (
-                            <div className="input-group">
-                                <label>Şifreyi Onaylayın</label>
-                                <input
-                                    type="password"
+                            <div className="input-group mb-4">
+                                <label className="block mb-1">Şifreyi Onaylayın</label>
+                                <Input.Password
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </div>
                         )}
                         {!isLogin && (
-                            <div className="input-group">
-                                <input type="checkbox" id="terms" />
-                                <label htmlFor="terms">I agree all statements in <a href="#">Terms of service</a></label>
+                            <div className="input-group mb-4 flex items-center">
+                                <Checkbox id="terms" className="mr-2" />
+                                <label htmlFor="terms">
+                                    I agree all statements in <a href="#">Terms of service</a>
+                                </label>
                             </div>
                         )}
-                        <button type="submit">{isLogin ? 'Giriş Yap' : 'Üye Ol'}</button>
+                        <Button type="primary" htmlType="submit" className="w-full mb-4">
+                            {isLogin ? 'Giriş Yap' : 'Üye Ol'}
+                        </Button>
                     </form>
-                    <button className="toggle-btn" onClick={() => setIsLogin(!isLogin)}>
-                        {isLogin ? 'Hesabınız Yok Mu? ' : 'Zaten Üye Misiniz?'}
-                    </button>
+                    <Button type="link" className="toggle-btn w-auto" onClick={() => setIsLogin(!isLogin)}>
+                        {isLogin ? 'Hesabınız Yok Mu?' : 'Zaten Üye Misiniz?'}
+                    </Button>
                 </div>
-                <div className="auth-image">
-                    <img src="public\images\furkan.png" alt="Auth Illustration" />
-                    {!isLogin && <p>Zaten Üye Misiniz?</p>}
+                <div className="auth-image flex-1 flex flex-col justify-center items-center">
+                    <img src="public/images/furkan.png" alt="Auth Illustration" className="rounded-lg max-w-full" />
+                    {!isLogin && <p className="mt-4 text-gray-600">Zaten Üye Misiniz?</p>}
                 </div>
             </div>
         </div>

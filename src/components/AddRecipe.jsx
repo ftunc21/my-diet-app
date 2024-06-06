@@ -1,7 +1,11 @@
 // src/components/AddRecipe.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AddRecipe.css'; // Assume you have a CSS file for styling
+import { Input, Button, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+
+
+const { TextArea } = Input;
 
 const AddRecipe = () => {
   const navigate = useNavigate();
@@ -10,8 +14,8 @@ const AddRecipe = () => {
   const [details, setDetails] = useState('');
   const [image, setImage] = useState(null);
 
-  const handleImageUpload = (e) => {
-    setImage(e.target.files[0]);
+  const handleImageUpload = (info) => {
+    setImage(info.file.originFileObj);
   };
 
   const handleSubmit = (e) => {
@@ -28,7 +32,7 @@ const AddRecipe = () => {
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
             Tarif Başlığı
           </label>
-          <input
+          <Input
             type="text"
             id="title"
             value={title}
@@ -40,7 +44,7 @@ const AddRecipe = () => {
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
             Kısa Açıklama
           </label>
-          <input
+          <Input
             type="text"
             id="description"
             value={description}
@@ -52,27 +56,29 @@ const AddRecipe = () => {
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="details">
             Tarif
           </label>
-          <textarea
+          <TextArea
             id="details"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          ></textarea>
+          />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
             Fotoğraf
           </label>
-          <input
-            type="file"
+          <Upload
             id="image"
+            beforeUpload={() => false}
             onChange={handleImageUpload}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
+            className="w-full"
+          >
+            <Button icon={<UploadOutlined />}>Fotoğraf Yükle</Button>
+          </Upload>
         </div>
-        <button type="submit" className="submit-button">
+        <Button type="primary" htmlType="submit" className="w-full mt-4 submit-button">
           Kaydet
-        </button>
+        </Button>
       </form>
     </div>
   );
