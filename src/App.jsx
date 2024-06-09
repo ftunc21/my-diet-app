@@ -17,6 +17,8 @@ import DietResult from './components/DietResults';
 import { Layout } from 'antd';
 import './styles.css';
 import Footer from './components/Footer';
+import AddPost from './components/AddPost';
+import BlogPost from './components/BlogPost';
 
 const { Content } = Layout;
 
@@ -38,10 +40,12 @@ const App = () => {
                             <Route path="/diet-plans" element={<DietPlans />} />
                             <Route path="/recipes" element={<Recipes />} />
                             <Route path="/blog" element={<Blog />} />
+                            <Route path="/blog/:id" element={<BlogPost />} />
                             <Route path="/auth" element={<Auth />} />
                             <Route path="/add-recipe" element={<AddRecipe />} />
                             <Route path="/custom-diet" element={<CustomDiet />} />
                             <Route path="/diet-result" element={<DietResult />} />
+                            <Route path="/add-post" element={<PrivateRoute element={<AddPost />} />} />
                         </Routes>
                     </Content>
                     <Footer />

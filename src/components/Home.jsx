@@ -29,7 +29,7 @@ const Home = () => {
                         <li>Kolay ve Esnek Yemek Planları</li>
                     </ul>
                 </div>
-                <div className="image-content lg:w-1/2 p-5 flex justify-center">
+                <div className="image-content lg:w-1/2 flex justify-center items-center object-center min-h-screen">
                     <img src="public/images/furkan.png" alt="Healthy Food" className="rounded-lg w-full" />
                 </div>
             </div>

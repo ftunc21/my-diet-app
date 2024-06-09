@@ -1,96 +1,100 @@
 // src/components/Blog.jsx
-import React, { useState } from 'react';
-import { Button, Input, Card, Col, Row, Typography, Form, Modal } from 'antd';
+import React from 'react';
+import { List, Avatar, Tag, Typography, Layout, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
-const { Title, Text } = Typography;
-const { TextArea } = Input;
+const { Title } = Typography;
+const { Content, Sider } = Layout;
+const { Search } = Input;
+
+const data = [
+  {
+    id: 1,
+    avatar: 'https://i.pravatar.cc/150?img=1',
+    title: 'Blog Post 1',
+    content: 'This is the content of blog post 1...',
+    answers: 0,
+    votes: 0,
+    views: 0,
+    tags: ['publications', 'advisor', 'authorship']
+  },
+  {
+    id: 2,
+    avatar: 'https://i.pravatar.cc/150?img=2',
+    title: 'Blog Post 2',
+    content: 'This is the content of blog post 2...',
+    answers: 5,
+    votes: 6,
+    views: 118,
+    tags: ['job', 'phd', 'research']
+  },
+  {
+    id: 3,
+    avatar: 'https://i.pravatar.cc/150?img=3',
+    title: 'Blog Post 3',
+    content: 'This is the content of blog post 3...',
+    answers: 2,
+    votes: 3,
+    views: 42,
+    tags: ['technology', 'ai', 'ml']
+  }
+];
 
 const Blog = () => {
-  const [posts, setPosts] = useState([]);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [topic, setTopic] = useState('');
-  const [isFormVisible, setFormVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    const newPost = { title, content, topic };
-    setPosts([...posts, newPost]);
-    setTitle('');
-    setContent('');
-    setTopic('');
-    setFormVisible(false);
+  const handleClick = (id) => {
+    navigate(`/blog/${id}`);
   };
 
   return (
-    <div className="container mx-auto px-6 py-12">
-      <Title level={2} className="mb-4">Blog</Title>
-      <Row gutter={16}>
-        <Col span={18}>
-          {posts.map((post, index) => (
-            <Card key={index} className="mb-4">
-              <Title level={3}>{post.title}</Title>
-              <Text>{post.content}</Text>
-              <div className="mt-2">
-                <Text type="secondary">Konu: {post.topic}</Text>
-              </div>
-            </Card>
-          ))}
-        </Col>
-        <Col span={6}>
-          <Button
-            type="primary"
-            onClick={() => setFormVisible(true)}
-            className="mb-4"
-          >
-            Blog Ekle
-          </Button>
-          <Modal
-            title="Yeni Blog Ekle"
-            visible={isFormVisible}
-            onCancel={() => setFormVisible(false)}
-            footer={null}
-          >
-            <Form layout="vertical" onFinish={handleSubmit}>
-              <Form.Item
-                label="Başlık"
-                name="title"
-                rules={[{ required: true, message: 'Başlık gerekli' }]}
-              >
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item
-                label="İçerik"
-                name="content"
-                rules={[{ required: true, message: 'İçerik gerekli' }]}
-              >
-                <TextArea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Konu"
-                name="topic"
-                rules={[{ required: true, message: 'Konu gerekli' }]}
-              >
-                <Input
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Ekle
-                </Button>
-              </Form.Item>
-            </Form>
-          </Modal>
-        </Col>
-      </Row>
-    </div>
+    <Layout style={{ padding: '24px' }}>
+      <Content>
+        <Title level={2}>Trending Today</Title>
+        <Search placeholder="Search posts..." style={{ marginBottom: '16px' }} />
+        <List
+          itemLayout="vertical"
+          dataSource={data}
+          renderItem={item => (
+            <List.Item
+              key={item.id}
+              onClick={() => handleClick(item.id)}
+              className="cursor-pointer hover:bg-gray-100"
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={item.avatar} />}
+                title={<a>{item.title}</a>}
+                description={
+                  <div>
+                    {item.tags.map(tag => (
+                      <Tag key={tag}>{tag}</Tag>
+                    ))}
+                    <div className="text-gray-500 mt-2">
+                      {item.answers} Answers &nbsp; | &nbsp;
+                      {item.votes} Votes &nbsp; | &nbsp;
+                      {item.views} Views
+                    </div>
+                  </div>
+                }
+              />
+            </List.Item>
+          )}
+        />
+      </Content>
+      <Sider width={300} className="bg-white ml-4">
+        <Title level={4}>Hot Questions</Title>
+        <List
+          dataSource={data.slice(0, 3)} // Mock data for hot questions
+          renderItem={item => (
+            <List.Item key={item.id} onClick={() => handleClick(item.id)} className="cursor-pointer hover:bg-gray-100">
+              <List.Item.Meta
+                title={<a>{item.title}</a>}
+              />
+            </List.Item>
+          )}
+        />
+      </Sider>
+    </Layout>
   );
 };
 

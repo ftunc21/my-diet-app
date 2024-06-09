@@ -21,15 +21,15 @@ const Header = () => {
             </Button>
             <div className="flex-grow flex justify-end items-center">
                 <Menu mode="horizontal" className="header-nav flex gap-4 text-orange-600">
-                    <Menu.Item key="1" onClick={() => navigate('/diet-plans')} className="text-orange-600" icon={<ReadOutlined />}>
+                    <Menu.Item key="1" onClick={() => navigate('/diet-plans')} className="hover:!text-orange-600 hover:after:!border-b-[#FF5722]" icon={<ReadOutlined />}>
                         Diyetler
                     </Menu.Item>
-                    <Menu.Item key="2" onClick={() => navigate('/custom-diet')} className="text-orange-600" icon={<ReadOutlined />}>
+                    <Menu.Item key="2" onClick={() => navigate('/custom-diet')} className="hover:!text-orange-600 hover:after:!border-b-[#FF5722]" icon={<ReadOutlined />}>
                         Kişiselleştirilmiş Diyet
                     </Menu.Item>
 
                     
-                    <Menu.Item key="3" onClick={() => navigate('/blog')} className="text-orange-600" icon={<EditOutlined />}>
+                    <Menu.Item key="3" onClick={() => navigate('/blog')} className="hover:!text-orange-600 hover:after:!border-b-[#FF5722]" icon={<EditOutlined />}>
                         Blog
                     </Menu.Item>
 
