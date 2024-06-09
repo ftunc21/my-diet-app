@@ -3,8 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { Menu, Button } from 'antd';
-import { UserOutlined, HomeOutlined, ReadOutlined, LogoutOutlined } from '@ant-design/icons';
-
+import { UserOutlined, HomeOutlined, ReadOutlined, LogoutOutlined, EditOutlined,MediumOutlined  } from '@ant-design/icons';
 
 const Header = () => {
     const { user, logout } = useAuth();
@@ -20,19 +19,28 @@ const Header = () => {
             >
                 MealMaster
             </Button>
-            <Menu mode="horizontal" className="header-nav flex gap-4">
-                <Menu.Item key="1" onClick={() => navigate('/diet-plans')} icon={<ReadOutlined />}>
-                    Diyetler
-                </Menu.Item>
-                <Menu.Item key="2" onClick={() => navigate('/recipes')} icon={<ReadOutlined />}>
-                    Tarifler
-                </Menu.Item>
-                <Menu.Item key="3" onClick={() => navigate('/blog')} icon={<ReadOutlined />}>
-                    Blog
-                </Menu.Item>
+            <div className="flex-grow flex justify-end items-center">
+                <Menu mode="horizontal" className="header-nav flex gap-4 text-orange-600">
+                    <Menu.Item key="1" onClick={() => navigate('/diet-plans')} className="text-orange-600" icon={<ReadOutlined />}>
+                        Diyetler
+                    </Menu.Item>
+                    <Menu.Item key="2" onClick={() => navigate('/custom-diet')} className="text-orange-600" icon={<ReadOutlined />}>
+                        Kişiselleştirilmiş Diyet
+                    </Menu.Item>
+
+                    
+                    <Menu.Item key="3" onClick={() => navigate('/blog')} className="text-orange-600" icon={<EditOutlined />}>
+                        Blog
+                    </Menu.Item>
+
+                    <Menu.Item key="4" onClick={() => navigate('/recipes')} className="text-orange-600" icon={<ReadOutlined />}>
+                        Tarifler
+                    </Menu.Item>
+                    
+                </Menu>
                 {user ? (
-                    <>
-                        <span className="user-name mr-4 font-bold text-gray-800">{user.username}</span>
+                    <div className="flex items-center ml-4">
+                        <span className="user-name mr-4 font-bold text-orange-600">{user.username}</span>
                         <Button
                             type="primary"
                             danger
@@ -42,16 +50,16 @@ const Header = () => {
                         >
                             Logout
                         </Button>
-                    </>
+                    </div>
                 ) : (
                     <Button
                         type="primary"
-                        className="auth-button"
+                        className="auth-button ml-4"
                         onClick={() => navigate('/auth')}
                         icon={<UserOutlined />}
                     />
                 )}
-            </Menu>
+            </div>
         </header>
     );
 };
