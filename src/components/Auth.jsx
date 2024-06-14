@@ -1,8 +1,7 @@
-// src/components/Auth.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { Input, Button, Checkbox } from 'antd';
-
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const { login, register } = useAuth();
@@ -11,14 +10,15 @@ const Auth = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isLogin) {
-            login(username, password);
+            login(username, password).then(() => navigate('/'));
         } else {
             if (password === confirmPassword) {
-                register(username, password);
+                register(username, password).then(() => navigate('/'));
             } else {
                 alert('Şifreler aynı değil');
             }

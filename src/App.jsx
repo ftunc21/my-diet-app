@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
@@ -19,6 +18,8 @@ import './styles.css';
 import Footer from './components/Footer';
 import AddPost from './components/AddPost';
 import BlogPost from './components/BlogPost';
+import { RecipesProvider } from './contexts/RecipesContext';
+import { DietsProvider } from './contexts/DietsContext';
 
 const { Content } = Layout;
 
@@ -30,27 +31,31 @@ const PrivateRoute = ({ element, ...rest }) => {
 const App = () => {
     return (
         <AuthProvider>
-            <Router>
-                <Layout className="flex flex-col min-h-screen">
-                    <Header />
-                    <Content className="flex-grow">
-                        <Routes>
-                            <Route path="/" element={<><Home /><RecipeSlider /><DietSlider/></>} />
-                            <Route path="/create-diet" element={<CreateDiet />} />
-                            <Route path="/diet-plans" element={<DietPlans />} />
-                            <Route path="/recipes" element={<Recipes />} />
-                            <Route path="/blog" element={<Blog />} />
-                            <Route path="/blog/:id" element={<BlogPost />} />
-                            <Route path="/auth" element={<Auth />} />
-                            <Route path="/add-recipe" element={<AddRecipe />} />
-                            <Route path="/custom-diet" element={<CustomDiet />} />
-                            <Route path="/diet-result" element={<DietResult />} />
-                            <Route path="/add-post" element={<PrivateRoute element={<AddPost />} />} />
-                        </Routes>
-                    </Content>
-                    <Footer />
-                </Layout>
-            </Router>
+            <DietsProvider>
+                <RecipesProvider>
+                    <Router>
+                        <Layout className="flex flex-col min-h-screen">
+                            <Header />
+                            <Content className="flex-grow">
+                                <Routes>
+                                    <Route path="/" element={<><Home /><RecipeSlider /><DietSlider/></>} />
+                                    <Route path="/create-diet" element={<CreateDiet />} />
+                                    <Route path="/diet-plans" element={<DietPlans />} />
+                                    <Route path="/recipes" element={<Recipes />} />
+                                    <Route path="/blog" element={<Blog />} />
+                                    <Route path="/blog/:id" element={<BlogPost />} />
+                                    <Route path="/auth" element={<Auth />} />
+                                    <Route path="/add-recipe" element={<AddRecipe />} />
+                                    <Route path="/custom-diet" element={<CustomDiet />} />
+                                    <Route path="/diet-result" element={<DietResult />} />
+                                    <Route path="/add-post" element={<PrivateRoute element={<AddPost />} />} />
+                                </Routes>
+                            </Content>
+                            <Footer />
+                        </Layout>
+                    </Router>
+                </RecipesProvider>
+            </DietsProvider>
         </AuthProvider>
     );
 };

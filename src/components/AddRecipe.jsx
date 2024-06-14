@@ -1,85 +1,94 @@
-// src/components/AddRecipe.jsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input, Button, Upload } from 'antd';
+import { Button, Form, Input, InputNumber, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-
+import { RecipesContext } from '../contexts/RecipesContext';
 
 const { TextArea } = Input;
 
 const AddRecipe = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [details, setDetails] = useState('');
-  const [image, setImage] = useState(null);
+  const [fileList, setFileList] = useState([]);
+  const { recipes, setRecipes } = useContext(RecipesContext);
 
-  const handleImageUpload = (info) => {
-    setImage(info.file.originFileObj);
+  const onFinish = (values) => {
+    const newRecipe = {
+      ...values,
+      image: fileList.length > 0 ? URL.createObjectURL(fileList[0].originFileObj) : '',
+      ratings: 0, // Yeni tarifler için başlangıçta 0 puan
+    };
+
+    setRecipes([...recipes, newRecipe]);
+    navigate('/recipes'); // Form gönderildikten sonra tarifler sayfasına yönlendirme
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    navigate('/recipes');
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
   };
+
+  const handleFileChange = ({ fileList }) => setFileList(fileList);
 
   return (
     <div className="container mx-auto px-6 py-12">
-      <h2 className="text-4xl font-bold mb-4">Yeni Tarif Ekle</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-            Tarif Başlığı
-          </label>
-          <Input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-            Kısa Açıklama
-          </label>
-          <Input
-            type="text"
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="details">
-            Tarif
-          </label>
-          <TextArea
-            id="details"
-            value={details}
-            onChange={(e) => setDetails(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-            Fotoğraf
-          </label>
+      <h2 className="text-4xl font-bold mb-4">Tarif Ekle</h2>
+      <Form
+        name="add-recipe"
+        layout="vertical"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+        <Form.Item
+          label="Tarif Başlığı"
+          name="title"
+          rules={[{ required: true, message: 'Lütfen tarif başlığı girin!' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Açıklama"
+          name="description"
+          rules={[{ required: true, message: 'Lütfen tarif açıklaması girin!' }]}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+
+        <Form.Item
+          label="Pişirme Süresi (Dakika)"
+          name="time"
+          rules={[{ required: true, message: 'Lütfen pişirme süresini girin!' }]}
+        >
+          <InputNumber min={1} />
+        </Form.Item>
+
+        <Form.Item
+          label="Zorluk Seviyesi"
+          name="difficulty"
+          rules={[{ required: true, message: 'Lütfen zorluk seviyesini girin!' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Resim Yükle"
+          name="image"
+        >
           <Upload
-            id="image"
-            beforeUpload={() => false}
-            onChange={handleImageUpload}
-            className="w-full"
+            listType="picture"
+            fileList={fileList}
+            onChange={handleFileChange}
+            beforeUpload={() => false} // Prevent automatic upload
           >
-            <Button icon={<UploadOutlined />}>Fotoğraf Yükle</Button>
+            <Button icon={<UploadOutlined />}>Resim Yükle</Button>
           </Upload>
-        </div>
-        <Button type="primary" htmlType="submit" className="w-full mt-4 submit-button">
-          Kaydet
-        </Button>
-      </form>
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Kaydet
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
