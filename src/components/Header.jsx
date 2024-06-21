@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { Menu, Button } from 'antd';
-import { UserOutlined, HomeOutlined, ReadOutlined, LogoutOutlined, EditOutlined,MediumOutlined  } from '@ant-design/icons';
+import { UserOutlined, HomeOutlined, ReadOutlined, LogoutOutlined, EditOutlined, MediumOutlined } from '@ant-design/icons';
 
 const Header = () => {
     const { user, logout } = useAuth();
@@ -28,15 +28,13 @@ const Header = () => {
                         Kişiselleştirilmiş Diyet
                     </Menu.Item>
 
-                    
-                    <Menu.Item key="3" onClick={() => navigate('/blog')} className="hover:!text-orange-600 hover:after:!border-b-[#FF5722]" icon={<EditOutlined />}>
-                        Blog
-                    </Menu.Item>
+
+
 
                     <Menu.Item key="4" onClick={() => navigate('/recipes')} className="text-orange-600" icon={<ReadOutlined />}>
                         Tarifler
                     </Menu.Item>
-                    
+
                 </Menu>
                 {user ? (
                     <div className="flex items-center ml-4">

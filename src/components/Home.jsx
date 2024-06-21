@@ -22,14 +22,9 @@ const Home = () => {
                         <Button onClick={() => navigate('/custom-diet')} type="primary" style={{ borderRadius: '25px', padding: '15px 30px', backgroundColor: '#ff5722' }}>Plan Oluştur</Button>
                         <Button type="default" style={{ borderRadius: '25px', padding: '15px 30px', color: '#ff5722', borderColor: '#ff5722' }}>Daha Fazlası</Button>
                     </div>
-                    <ul className="list-disc list-inside text-lg text-gray-700 space-y-2">
-                        <li>Özel Beslenme Uzmanı Desteği</li>
-                        <li>Hedeflerinize Özel Kişiselleştirme</li>
-                        <li>Her Gün Farklı Menü</li>
-                        <li>Kolay ve Esnek Yemek Planları</li>
-                    </ul>
+
                 </div>
-                <div className="image-content lg:w-1/2 flex justify-center items-center object-center min-h-screen">
+                <div className="image-content lg:w-1/2 flex justify-center items-center object-center pt-10 mt-10 ">
                     <img src="public/images/furkan.png" alt="Healthy Food" className="rounded-lg w-full" />
                 </div>
             </div>

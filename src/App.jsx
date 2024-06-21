@@ -6,7 +6,6 @@ import CustomDiet from './components/CustomDiet';
 import CreateDiet from './components/CreateDiet';
 import DietPlans from './components/DietPlans';
 import Recipes from './components/Recipes';
-import Blog from './components/Blog';
 import Auth from './components/Auth';
 import AddRecipe from './components/AddRecipe';
 import RecipeSlider from './components/RecipeSlider';
@@ -16,10 +15,9 @@ import DietResult from './components/DietResults';
 import { Layout } from 'antd';
 import './styles.css';
 import Footer from './components/Footer';
-import AddPost from './components/AddPost';
-import BlogPost from './components/BlogPost';
 import { RecipesProvider } from './contexts/RecipesContext';
 import { DietsProvider } from './contexts/DietsContext';
+import RecipeDetail from './contexts/RecipeDetail';
 
 const { Content } = Layout;
 
@@ -38,17 +36,17 @@ const App = () => {
                             <Header />
                             <Content className="flex-grow">
                                 <Routes>
-                                    <Route path="/" element={<><Home /><RecipeSlider /><DietSlider/></>} />
+                                    <Route path="/" element={<><Home /><RecipeSlider /><DietSlider /></>} />
                                     <Route path="/create-diet" element={<CreateDiet />} />
                                     <Route path="/diet-plans" element={<DietPlans />} />
                                     <Route path="/recipes" element={<Recipes />} />
-                                    <Route path="/blog" element={<Blog />} />
-                                    <Route path="/blog/:id" element={<BlogPost />} />
+                                    <Route path="/recipe/:id" element={<RecipeDetail />} />
+
                                     <Route path="/auth" element={<Auth />} />
                                     <Route path="/add-recipe" element={<AddRecipe />} />
                                     <Route path="/custom-diet" element={<CustomDiet />} />
                                     <Route path="/diet-result" element={<DietResult />} />
-                                    <Route path="/add-post" element={<PrivateRoute element={<AddPost />} />} />
+
                                 </Routes>
                             </Content>
                             <Footer />

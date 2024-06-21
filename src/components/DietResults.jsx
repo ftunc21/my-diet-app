@@ -81,12 +81,23 @@ const DietResult = () => {
                 [mealName]: selectedOption,
             },
         }));
+        var calculate = 0;
+        Object.entries(selectedMeals[day]).map((meal) => {
+            calculate += meal[1].calories;
+        })
+        console.log(calculate)
+        if (calorieNeeds < calculate) {
+            notification.error({
+                message: 'Uyarı',
+                description: 'Kalori sınırını aştınız.',
+            });
+        }
     };
 
     const getMealMaxCalories = (mealName) => {
         switch (mealName) {
             case 'Kahvaltı':
-                return (calorieNeeds * 0.25).toFixed(2);
+                return (calorieNeeds * 0.30).toFixed(2);
             case 'Öğle Yemeği':
                 return (calorieNeeds * 0.35).toFixed(2);
             case 'Akşam Yemeği':
@@ -97,13 +108,13 @@ const DietResult = () => {
     };
 
     const cardColors = [
-        '#AEC6CF', // pastel blue
-        '#77DD77', // pastel green
-        '#FDFD96', // pastel yellow
-        '#FFB7B2', // pastel pink
-        '#C3B1E1', // pastel purple
+        '#FFD1DC', // pastel blue
+        '#AEC6CF', // pastel green
+        '#77DD77', // pastel yellow
+        '#CBAACB', // pastel pink
+        '#FDFD96', // pastel purple
         '#FFB347', // pastel orange
-        '#B2DFDB', // pastel teal
+        '#B0E57C', // pastel teal
     ];
 
     const handleSave = () => {
@@ -132,7 +143,7 @@ const DietResult = () => {
                         title={day}
                         bordered={false}
                         className="shadow-md p-4"
-                        style={{ 
+                        style={{
                             backgroundColor: cardColors[index],
                             borderRadius: '15px',
                             color: '#333'

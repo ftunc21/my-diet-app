@@ -1,76 +1,50 @@
-// import React from 'react';
-// import { Slide } from 'react-slideshow-image';
-// import 'react-slideshow-image/dist/styles.css';
+import React, { useContext } from "react";
+import { Slide } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
+import { useNavigate } from "react-router-dom";
+import { RecipesContext } from "../contexts/RecipesContext";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-// const images = [
-//   'public/images/furkan.png',
-//   'public/images/images.jpg',
-//   'public/images/pilav.jpg',
-//   'public/images/indir(2).jpg',
-//   'public/images/images.jpg',
-// ];
+export default function RecipeSlider() {
+  const { recipes } = useContext(RecipesContext);
+  const navigate = useNavigate();
 
-// const Slider = () => {
-//   return (
-//     <div className="relative w-full max-w-4xl mx-auto mt-8">
-//       <h2 className="text-center text-2xl font-bold py-4 text-[#ff5722]">Popüler Yemek Tarifleri</h2>
-//       <Slide easing="ease">
-//         {images.map((each, index) => (
-//           <div key={index} className="each-slideflex" style={{height: '500px'}}>
-//             <div style={{ 'backgroundImage': `url(${each})`,'backgroundSize' : 'cover' , 'backgroundPosition' : 'center', 'height' : '100%' }}>
-              
-//             </div>
-//           </div>
-//         ))}
-//       </Slide>
-//     </div>
-//   );
-// };
+  console.log(recipes);
 
-// export default Slider;
-
-
-import React from 'react';
-import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css';
-import { useNavigate } from 'react-router-dom';
-
-const images = [
-    'public/images/furkan.png',
-    'public/images/images.jpg',
-    'public/images/pilav.jpg',
-    'public/images/indir(2).jpg',
-    'public/images/images.jpg',
-];
-
-const RecipeSlider = () => {
   return (
     <div className="relative w-full max-w-4xl mx-auto mt-8">
-      <h2 className="text-center text-2xl font-bold py-4 text-[#ff5722]">Popüler Yemek Tarifleri</h2>
-      <Slide easing="ease">
-        {images.map((each, index) => (
-          // Her slaytı 3 resim içerecek şekilde gruplandırın
-          <div key={index} className="each-slide flex" style={{ height: '300px' }}>
-            <div style={{ width: '33.3333%', padding: '5px' }}>
-              <div style={{ 'backgroundImage': `url(${images[(index * 3) % images.length]})`, 'backgroundSize': 'cover', 'backgroundPosition': 'center', 'borderRadius': '50%', 'height': '100%' }}></div>
-            </div>
-            <div style={{ width: '33.3333%', padding: '5px' }}>
-              <div style={{ 'backgroundImage': `url(${images[(index * 3 + 1) % images.length]})`, 'backgroundSize': 'cover', 'backgroundPosition': 'center', 'borderRadius': '50%', 'height': '100%' }}></div>
-            </div>
-            <div style={{ width: '33.3333%', padding: '5px' }}>
-              <div style={{ 'backgroundImage': `url(${images[(index * 3 + 2) % images.length]})`, 'backgroundSize': 'cover', 'backgroundPosition': 'center', 'borderRadius': '50%', 'height': '100%' }}></div>
-            </div>
-          </div>
+      <h2 className="text-center text-2xl font-bold py-4 text-[#ff5722]">
+        Popüler Yemek Tarifleri
+      </h2>
+      <Swiper
+        spaceBetween={15}
+        slidesPerView={3}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper h-72"
+      >
+        {" "}
+        {recipes.map((recipe, index) => (
+          <SwiperSlide key={index}>
+            <img className="rounded-full h-72" src={recipe.image}
+            />
+          </SwiperSlide>
         ))}
-      </Slide>
+      </Swiper>
       <div className="text-center mt-4">
-        <button onClick={() => navigate('/recipes')} className="text-[#ff5722] underline border-none">
+        <button
+          onClick={() => navigate("/recipes")}
+          className="text-[#ff5722] underline border-none"
+        >
           Daha fazlası için tıklayın
         </button>
       </div>
-
     </div>
   );
-};
-
-export default RecipeSlider;
+}

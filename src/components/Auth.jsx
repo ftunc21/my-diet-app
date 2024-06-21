@@ -83,7 +83,6 @@ const Auth = () => {
                 </div>
                 <div className="auth-image flex-1 flex flex-col justify-center items-center">
                     <img src="public/images/furkan.png" alt="Auth Illustration" className="rounded-lg max-w-full" />
-                    {!isLogin && <p className="mt-4 text-gray-600">Zaten Üye Misiniz?</p>}
                 </div>
             </div>
         </div>

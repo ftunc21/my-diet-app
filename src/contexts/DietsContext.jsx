@@ -7,7 +7,7 @@ export const DietsProvider = ({ children }) => {
     {
       title: 'Aralıklı Oruç (Intermittent Fasting) Diyeti',
       ratings: 282,
-      description: "Aralıklı Oruç (Intermittent Fasting), düzenli bir program dahilinde açlık ve yemek yeme arasında geçiş yapan bir beslenme planıdır. Açlık dönemlerinde, vücut birincil yakıt kaynağı olarak glikozu (şeker) kullanmaktan enerji için yağ kullanmaya geçer. Kilo kaybına, gelişmiş insülin duyarlılığı ve azaltılmış inflamasyon gibi diğer potansiyel sağlık yararları sağlayabilir. Aralıklı orucun birkaç farklı yöntemi vardır ve en yaygın olanlardan bazıları şunlardır: 16/8 yöntemi: Bu yöntemde, her gün 16 saat boyunca oruç tutulur ve yemek yeme süresi 8 saate sığdırılır. Örneğin, yemek yeme süresi 12:00 ile 20:00 arasında olabilir. 5:2 diyeti: Bu yöntemde, haftada iki gün boyunca çok az kalori alınır ve diğer beş gün boyunca normal şekilde yemek yenir. Örneğin, oruç tutulan günlerde 500-600 kalori alınabilir ve diğer günlerde normal şekilde yemek yenir. Eat-Stop-Eat: Bu yöntemde, haftada bir veya iki gün boyunca 24 saat boyunca oruç tutulur",
+      description: "Aralıklı Oruç (Intermittent Fasting), düzenli bir program dahilinde açlık ve yemek yeme arasında geçiş yapan bir beslenme planıdır. ",
 
       time: '1 Saat 35 Dk',
       difficulty: 'Kolay',
