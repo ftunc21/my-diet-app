@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Rate, Tag } from 'antd';
+import { Button, Card, Rate, Tag, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { DietsContext } from '../contexts/DietsContext';
 
@@ -9,12 +9,22 @@ const { Meta } = Card;
 const DietPlans = () => {
   const navigate = useNavigate();
   const [selectedDiet, setSelectedDiet] = useState(null);
-  const { diets } = useContext(DietsContext);
+  const { diets, setDiets } = useContext(DietsContext);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/diets/')
+      .then(response => response.json())
+      .then(data => setDiets(data))
+      .catch(error => {
+        console.error('Error:', error);
+        message.error('Diyetler yüklenirken bir hata oluştu.');
+      });
+  }, []);
 
   return (
     <div className="flex flex-row mx-auto px-6 py-12">
       <div className="w-2/3 pr-6">
-        <h2 className="text-4xl font-bold mb-4">Diyet Listeleri</h2>
+        <h2 className="text-4xl font-bold mb-4">Diyet Planları</h2>
         <div className="diets-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {diets.map((diet, index) => (
             <Card
@@ -27,12 +37,11 @@ const DietPlans = () => {
               <Meta title={diet.title} description={diet.description} />
               <div className="mt-4">
                 <Rate disabled defaultValue={diet.ratings / 100} />
-                <span className="diet-ratings ml-2">{diet.ratings} puanlar</span>
+                <span className="diet-ratings ml-2">{diet.ratings} ratings</span>
               </div>
               <div className="diet-meta mt-2">
-                <Tag color="blue">{diet.time}</Tag>
+                <Tag color="blue">{diet.time} dakika</Tag>
                 <Tag color="green">{diet.difficulty}</Tag>
-                {diet.vegetarian && <Tag color="green">Vejeteryan</Tag>}
               </div>
             </Card>
           ))}
@@ -43,9 +52,9 @@ const DietPlans = () => {
           <div className="diet-preview p-4 border border-gray-300 rounded-lg">
             <h3 className="text-2xl font-bold mb-2">{selectedDiet.title}</h3>
             <img src={selectedDiet.image} alt={selectedDiet.title} className="w-full h-48 object-cover mb-4" />
-            <p>{selectedDiet.description}</p>
-            <Button type="primary" className="mt-4" onClick={() => navigate('/diet/' + selectedDiet.title)}>
-              Diyeti Görüntüle
+            <p>{selectedDiet.detailed_description}</p>
+            <Button type="primary" className="mt-4" onClick={() => setSelectedDiet(null)}>
+              Geri Dön
             </Button>
           </div>
         ) : (
@@ -53,9 +62,9 @@ const DietPlans = () => {
             <Button
               type="dashed"
               icon={<PlusOutlined />}
-              onClick={() => navigate('/add-diet')}
+              onClick={() => navigate('/create-diet')}
             >
-              Yeni Diyet Ekle
+              Diyet Planı Ekle
             </Button>
           </div>
         )}
@@ -65,4 +74,3 @@ const DietPlans = () => {
 };
 
 export default DietPlans;
-

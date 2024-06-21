@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Input, InputNumber, Upload } from 'antd';
+import { Button, Form, Input, InputNumber, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { DietsContext } from '../contexts/DietsContext';
 
@@ -12,14 +12,35 @@ const CreateDiet = () => {
   const { diets, setDiets } = useContext(DietsContext);
 
   const onFinish = (values) => {
-    const newDiet = {
-      ...values,
-      image: fileList.length > 0 ? URL.createObjectURL(fileList[0].originFileObj) : '',
-      ratings: 0, // Yeni tarifler için başlangıçta 0 puan
-    };
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('detailed_description', values.detailed_description);
+    formData.append('time', values.time);
+    formData.append('difficulty', values.difficulty);
+    if (fileList.length > 0) {
+      formData.append('image', fileList[0].originFileObj);
+    }
 
-    setDiets([...diets, newDiets]);
-    navigate('/diet-plans'); // Form gönderildikten sonra tarifler sayfasına yönlendirme
+    fetch('http://localhost:8000/api/diets/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setDiets([...diets, data]);
+        message.success('Diyet Planı başarıyla kaydedildi!');
+        navigate('/diet-plans');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        message.error('Diyet Planı kaydedilirken bir hata oluştu.');
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -30,17 +51,17 @@ const CreateDiet = () => {
 
   return (
     <div className="container mx-auto px-6 py-12">
-      <h2 className="text-4xl font-bold mb-4">Tarif Ekle</h2>
+      <h2 className="text-4xl font-bold mb-4">Diyet Planı Ekle</h2>
       <Form
-        name="add-diet"
+        name="create-diet"
         layout="vertical"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
-          label="Tarif Başlığı"
+          label="Diyet Planı Başlığı"
           name="title"
-          rules={[{ required: true, message: 'Lütfen tarif başlığı girin!' }]}
+          rules={[{ required: true, message: 'Lütfen diyet planı başlığı girin!' }]}
         >
           <Input />
         </Form.Item>
@@ -48,7 +69,15 @@ const CreateDiet = () => {
         <Form.Item
           label="Açıklama"
           name="description"
-          rules={[{ required: true, message: 'Lütfen tarif açıklaması girin!' }]}
+          rules={[{ required: true, message: 'Lütfen diyet planı açıklaması girin!' }]}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+
+        <Form.Item
+          label="Detaylı Açıklama"
+          name="detailed_description"
+          rules={[{ required: true, message: 'Lütfen detaylı diyet planı açıklaması girin!' }]}
         >
           <TextArea rows={4} />
         </Form.Item>

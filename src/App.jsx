@@ -10,7 +10,7 @@ import Auth from './components/Auth';
 import AddRecipe from './components/AddRecipe';
 import RecipeSlider from './components/RecipeSlider';
 import DietSlider from './components/DietSlider';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider, useAuth } from './AuthContext';  // Burada useAuth'u ekledik
 import DietResult from './components/DietResults';
 import { Layout } from 'antd';
 import './styles.css';
