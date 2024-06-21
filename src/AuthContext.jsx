@@ -1,30 +1,71 @@
-// src/AuthContext.jsx
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    const login = (username, password) => {
-        // Basit bir doğrulama örneği
-        if (username === 'admin' && password === 'password') {
-            setUser({ username });
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetch('http://localhost:8000/api/users/profile/', {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        setUser({ username: data.username, email: data.email, token });
+                    }
+                });
+        }
+    }, []);
+
+    const login = async (username, password) => {
+        const response = await fetch('http://localhost:8000/api/users/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setUser({ username: data.username, email: data.email, token: data.token });
+            localStorage.setItem('token', data.token);
+            navigate('/');
         } else {
-            alert('Geçersiz kullanıcı adı veya şifre');
+            const errorData = await response.json();
+            alert(errorData.error || 'Geçersiz kullanıcı adı veya şifre');
         }
     };
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem('token');
     };
 
-    const register = (username, password) => {
-        // Basit bir kayıt örneği
-        if (username && password) {
-            setUser({ username });
+    const register = async (username, password, email) => {
+        const response = await fetch('http://localhost:8000/api/users/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password, email }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setUser({ username: data.username, email: data.email, token: data.token });
+            localStorage.setItem('token', data.token);
+            navigate('/');
         } else {
-            alert('Kullanıcı adı ve şifre gerekli');
+            const errorData = await response.json();
+            alert(errorData.username || errorData.email || 'Kayıt sırasında bir hata oluştu');
         }
     };
 

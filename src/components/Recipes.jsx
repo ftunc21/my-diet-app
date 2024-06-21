@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Rate, Tag } from 'antd';
+import { Button, Card, Rate, Tag, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { RecipesContext } from '../contexts/RecipesContext';
 
@@ -9,7 +9,17 @@ const { Meta } = Card;
 const Recipes = () => {
   const navigate = useNavigate();
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const { recipes } = useContext(RecipesContext);
+  const { recipes, setRecipes } = useContext(RecipesContext);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/recipes/')
+      .then(response => response.json())
+      .then(data => setRecipes(data))
+      .catch(error => {
+        console.error('Error:', error);
+        message.error('Tarifler yüklenirken bir hata oluştu.');
+      });
+  }, []);
 
   return (
     <div className="flex flex-row mx-auto px-6 py-12">
@@ -30,9 +40,8 @@ const Recipes = () => {
                 <span className="recipe-ratings ml-2">{recipe.ratings} ratings</span>
               </div>
               <div className="recipe-meta mt-2">
-                <Tag color="blue">{recipe.time}</Tag>
+                <Tag color="blue">{recipe.time} dakika</Tag>
                 <Tag color="green">{recipe.difficulty}</Tag>
-                {recipe.vegetarian && <Tag color="green">Vegetarian</Tag>}
               </div>
             </Card>
           ))}
@@ -43,9 +52,9 @@ const Recipes = () => {
           <div className="recipe-preview p-4 border border-gray-300 rounded-lg">
             <h3 className="text-2xl font-bold mb-2">{selectedRecipe.title}</h3>
             <img src={selectedRecipe.image} alt={selectedRecipe.title} className="w-full h-48 object-cover mb-4" />
-            <p>{selectedRecipe.description}</p>
-            <Button type="primary" className="mt-4" onClick={() => navigate('/recipe/' + selectedRecipe.title)}>
-              Tarife Git
+            <p>{selectedRecipe.detailed_description}</p>
+            <Button type="primary" className="mt-4" onClick={() => setSelectedRecipe(null)}>
+              Geri Dön
             </Button>
           </div>
         ) : (

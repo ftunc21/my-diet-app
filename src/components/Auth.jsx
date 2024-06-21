@@ -12,13 +12,13 @@ const Auth = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (isLogin) {
-            login(username, password).then(() => navigate('/'));
+            await login(username, password);
         } else {
             if (password === confirmPassword) {
-                register(username, password).then(() => navigate('/'));
+                await register(username, password, email);
             } else {
                 alert('Şifreler aynı değil');
             }

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Input, InputNumber, Upload } from 'antd';
+import { Button, Form, Input, InputNumber, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { RecipesContext } from '../contexts/RecipesContext';
 
@@ -12,14 +12,35 @@ const AddRecipe = () => {
   const { recipes, setRecipes } = useContext(RecipesContext);
 
   const onFinish = (values) => {
-    const newRecipe = {
-      ...values,
-      image: fileList.length > 0 ? URL.createObjectURL(fileList[0].originFileObj) : '',
-      ratings: 0, // Yeni tarifler için başlangıçta 0 puan
-    };
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('detailed_description', values.detailed_description);  // Yeni alan
+    formData.append('time', values.time);
+    formData.append('difficulty', values.difficulty);
+    if (fileList.length > 0) {
+      formData.append('image', fileList[0].originFileObj);
+    }
 
-    setRecipes([...recipes, newRecipe]);
-    navigate('/recipes'); // Form gönderildikten sonra tarifler sayfasına yönlendirme
+    fetch('http://localhost:8000/api/recipes/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setRecipes([...recipes, data]);
+        message.success('Tarif başarıyla kaydedildi!');
+        navigate('/recipes');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        message.error('Tarif kaydedilirken bir hata oluştu.');
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -49,6 +70,14 @@ const AddRecipe = () => {
           label="Açıklama"
           name="description"
           rules={[{ required: true, message: 'Lütfen tarif açıklaması girin!' }]}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+
+        <Form.Item
+          label="Detaylı Açıklama"
+          name="detailed_description"
+          rules={[{ required: true, message: 'Lütfen detaylı tarif açıklaması girin!' }]}
         >
           <TextArea rows={4} />
         </Form.Item>
