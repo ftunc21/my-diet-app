@@ -47,7 +47,7 @@ const Home = () => {
                         </Button>
                     </div>
                 </div>
-                {/* Resim alanı */}
+
                 <div className="image-content lg:w-1/2 flex justify-center items-center object-center pt-10 mt-10">
                     <img src="public/images/furkan.png" alt="Healthy Food" className="rounded-lg w-full" />
                 </div>
@@ -56,5 +56,5 @@ const Home = () => {
     );
 };
 
-// Bileşeni dışa aktarıyoruz
+
 export default Home;

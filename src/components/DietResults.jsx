@@ -29,6 +29,7 @@ const DietResult = () => {
             { food: 'Çılbır', calories: 250 },
             { food: 'Sebzeli Krep', calories: 270 },
             { food: 'Tam Buğday Gözleme', calories: 280 },
+
         ],
         'Öğle Yemeği': [
             { food: 'Tavuklu Salata', calories: 350 },

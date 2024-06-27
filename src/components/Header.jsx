@@ -64,7 +64,7 @@ const Header = () => {
 
                     <Button
                         type="primary"
-                        className="auth-button ml-4"
+                        className="auth-button ml-4 bg-orange-600"
                         onClick={() => navigate('/auth')}
                         icon={<UserOutlined />}
                     />

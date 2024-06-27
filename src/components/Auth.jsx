@@ -29,7 +29,7 @@ const Auth = () => {
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Formun sayfayı yenilemesini engelliyoruz
+        e.preventDefault();
         if (isLogin) {
 
             await login(username, password);
@@ -45,7 +45,6 @@ const Auth = () => {
         }
     };
 
-    // Bileşenin render edileceği JSX yapısını döndürüyoruz
     return (
         <div className="auth-container flex justify-center items-center h-screen bg-gray-100">
             <div className="auth-box flex bg-white p-10 rounded-2xl shadow-lg max-w-4xl w-full">
@@ -66,7 +65,7 @@ const Auth = () => {
                                 <Input
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)} // Email güncelleme
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                         )}
@@ -74,7 +73,7 @@ const Auth = () => {
                             <label className="block mb-1">Şifre</label>
                             <Input.Password
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)} // Şifre güncelleme
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
                         {!isLogin && (
@@ -82,24 +81,24 @@ const Auth = () => {
                                 <label className="block mb-1">Şifreyi Onaylayın</label>
                                 <Input.Password
                                     value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)} // Şifre onayı güncelleme
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </div>
                         )}
                         {!isLogin && (
                             <div className="input-group mb-4 flex items-center">
-                                <Checkbox id="terms" className="mr-2" /> {/* Şartlar ve koşullar onayı */}
+                                <Checkbox id="terms" className="mr-2" />
                                 <label htmlFor="terms">
-                                    I agree all statements in <a href="#">Terms of service</a>
+                                    I agree all statements in <a href="#">Gizlilik Koşulları</a>
                                 </label>
                             </div>
                         )}
                         <Button type="primary" htmlType="submit" className="w-full mb-4">
-                            {isLogin ? 'Giriş Yap' : 'Üye Ol'} {/* Buton metni */}
+                            {isLogin ? 'Giriş Yap' : 'Üye Ol'}
                         </Button>
                     </form>
                     <Button type="link" className="toggle-btn w-auto" onClick={() => setIsLogin(!isLogin)}>
-                        {isLogin ? 'Hesabınız Yok Mu?' : 'Zaten Üye Misiniz?'} {/* Giriş ve kayıt arasında geçiş butonu */}
+                        {isLogin ? 'Hesabınız Yok Mu?' : 'Zaten Üye Misiniz?'}
                     </Button>
                 </div>
                 <div className="auth-image flex-1 flex flex-col justify-center items-center">
@@ -110,5 +109,5 @@ const Auth = () => {
     );
 };
 
-// Bileşeni dışa aktarıyoruz
+
 export default Auth;

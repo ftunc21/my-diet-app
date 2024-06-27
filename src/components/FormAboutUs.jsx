@@ -16,7 +16,7 @@ const FormAboutUs = () => {
             description: 'Geri Dönüşün İçin Teşekkür Ederiz',
         });
 
-        // Ana sayfaya yönlendirin
+
         navigate('/about-us');
     };
 

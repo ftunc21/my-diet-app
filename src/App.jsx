@@ -14,10 +14,10 @@ import Recipes from './components/Recipes';
 import Auth from './components/Auth';
 import AddRecipe from './components/AddRecipe';
 import RecipeSlider from './components/RecipeSlider';
-import { AuthProvider, useAuth } from './AuthContext';  // AuthProvider ve useAuth'u import ediyoruz
+import { AuthProvider, useAuth } from './AuthContext';
 import DietResult from './components/DietResults';
-import { Layout } from 'antd';  // Ant Design Layout bileşenini import ediyoruz
-import './styles.css';  // Stil dosyasını import ediyoruz
+import { Layout } from 'antd';
+import './styles.css';
 import Footer from './components/Footer';
 import { RecipesProvider } from './contexts/RecipesContext';
 import { DietsProvider } from './contexts/DietsContext';
@@ -25,10 +25,10 @@ import RecipeDetail from './contexts/RecipeDetail';
 import AboutUs from './components/AboutUs';
 import FormAboutUs from './components/FormAboutUs';
 
-// Layout bileşeninden Content bileşenini çıkartıyoruz
+
 const { Content } = Layout;
 
-// Özel route bileşeni oluşturuyoruz, kullanıcı giriş yapmamışsa auth sayfasına yönlendiriyoruz
+
 const PrivateRoute = ({ children }) => {
     const { user } = useAuth();
 
@@ -39,9 +39,9 @@ const PrivateRoute = ({ children }) => {
     return children;
 };
 
-// App bileşenini tanımlıyoruz
+
 const App = () => {
-    // Bileşenin render edileceği JSX yapısını döndürüyoruz
+
     return (
         <Router>
             <AuthProvider>
@@ -72,5 +72,4 @@ const App = () => {
     );
 };
 
-// Bileşeni dışa aktarıyoruz
 export default App;
