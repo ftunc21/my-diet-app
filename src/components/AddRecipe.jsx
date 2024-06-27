@@ -1,167 +1,155 @@
-// React kütüphanesini ve gerekli fonksiyonları import ediyoruz
 import React, { useState, useContext } from 'react';
-
-// useNavigate fonksiyonunu react-router-dom kütüphanesinden import ediyoruz
 import { useNavigate } from 'react-router-dom';
-
-// Ant Design kütüphanesinden bazı bileşenleri import ediyoruz
 import { Button, Form, Input, InputNumber, Upload, message } from 'antd';
-
-// Upload butonu için Ant Design ikonunu import ediyoruz
 import { UploadOutlined } from '@ant-design/icons';
-
-// Tarifler bağlamını (context) import ediyoruz
 import { RecipesContext } from '../contexts/RecipesContext';
 
-// Input bileşeninden TextArea bileşenini çıkartıyoruz
+
 const { TextArea } = Input;
 
-// AddRecipe adlı bileşeni tanımlıyoruz
 const AddRecipe = () => {
-  // Yönlendirme fonksiyonunu kullanmak için useNavigate hook'unu çağırıyoruz
   const navigate = useNavigate();
 
-  // Dosya listesini yönetmek için useState hook'unu kullanıyoruz
   const [fileList, setFileList] = useState([]);
 
-  // Tarifler bağlamını (context) kullanarak recipes ve setRecipes değerlerini alıyoruz
   const { recipes, setRecipes } = useContext(RecipesContext);
 
-  // Form gönderildiğinde çalışacak olan fonksiyonu tanımlıyoruz
   const onFinish = (values) => {
-    // Yeni bir FormData nesnesi oluşturuyoruz
+
     const formData = new FormData();
 
-    // Form verilerini FormData nesnesine ekliyoruz
+
     formData.append('title', values.title);
     formData.append('description', values.description);
-    formData.append('detailed_description', values.detailed_description);  // Yeni alan
+    formData.append('detailed_description', values.detailed_description);
     formData.append('time', values.time);
     formData.append('difficulty', values.difficulty);
+    formData.append('stuff', values.stuff);
 
-    // Eğer dosya listesi boş değilse, ilk dosyayı FormData nesnesine ekliyoruz
+
     if (fileList.length > 0) {
       formData.append('image', fileList[0].originFileObj);
     }
 
-    // Tarifi kaydetmek için bir API isteği gönderiyoruz
+
     fetch('http://localhost:8000/api/recipes/', {
-      method: 'POST', // HTTP POST yöntemi kullanılıyor
-      body: formData, // Form verileri istek gövdesine ekleniyor
+      method: 'POST',
+      body: formData,
     })
       .then(response => {
-        // Eğer cevap başarılı değilse hata fırlatıyoruz
+
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        // Cevabı JSON formatında döndürüyoruz
+
         return response.json();
       })
       .then(data => {
-        // Yeni tarifi mevcut tarifler listesine ekliyoruz
+
         setRecipes([...recipes, data]);
-        // Başarılı mesajı gösteriyoruz
+
         message.success('Tarif başarıyla kaydedildi!');
-        // Tarifler sayfasına yönlendiriyoruz
+
         navigate('/recipes');
       })
       .catch(error => {
-        // Hata oluşursa hatayı konsola yazdırıyoruz ve hata mesajı gösteriyoruz
+
         console.error('Error:', error);
         message.error('Tarif kaydedilirken bir hata oluştu.');
       });
   };
 
-  // Form gönderme başarısız olduğunda çalışacak fonksiyonu tanımlıyoruz
+
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo); // Hata bilgilerini konsola yazdırıyoruz
+    console.log('Failed:', errorInfo);
   };
 
-  // Dosya değiştiğinde çalışacak fonksiyonu tanımlıyoruz
-  const handleFileChange = ({ fileList }) => setFileList(fileList); // Dosya listesini güncelliyoruz
 
-  // Bileşenin render edileceği JSX yapısını döndürüyoruz
+  const handleFileChange = ({ fileList }) => setFileList(fileList);
+
+
   return (
     <div className="container mx-auto px-6 py-12">
-      {/* Sayfa başlığını belirliyoruz */}
+
       <h2 className="text-4xl font-bold mb-4">Tarif Ekle</h2>
-      {/* Ant Design form bileşenini oluşturuyoruz */}
+
       <Form
         name="add-recipe"
-        layout="vertical" // Dikey düzen kullanıyoruz
-        onFinish={onFinish} // Form başarıyla gönderildiğinde çalışacak fonksiyon
-        onFinishFailed={onFinishFailed} // Form gönderme başarısız olduğunda çalışacak fonksiyon
+        layout="vertical"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
       >
-        {/* Tarif başlığı için form alanı */}
         <Form.Item
           label="Tarif Başlığı"
           name="title"
-          rules={[{ required: true, message: 'Lütfen tarif başlığı girin!' }]} // Zorunlu alan kuralları
+          rules={[{ required: true, message: 'Lütfen tarif başlığı girin!' }]}
         >
-          <Input /> {/* Başlık girişi için input alanı */}
+          <Input />
         </Form.Item>
 
-        {/* Tarif açıklaması için form alanı */}
         <Form.Item
           label="Açıklama"
           name="description"
-          rules={[{ required: true, message: 'Lütfen tarif açıklaması girin!' }]} // Zorunlu alan kuralları
+          rules={[{ required: true, message: 'Lütfen tarif açıklaması girin!' }]}
         >
-          <TextArea rows={4} /> {/* Açıklama girişi için çok satırlı text alanı */}
+          <TextArea rows={4} />
         </Form.Item>
 
-        {/* Detaylı tarif açıklaması için form alanı */}
         <Form.Item
           label="Detaylı Açıklama"
           name="detailed_description"
-          rules={[{ required: true, message: 'Lütfen detaylı tarif açıklaması girin!' }]} // Zorunlu alan kuralları
+          rules={[{ required: true, message: 'Lütfen detaylı tarif açıklaması girin!' }]}
         >
-          <TextArea rows={4} /> {/* Detaylı açıklama girişi için çok satırlı text alanı */}
+          <TextArea rows={4} />
         </Form.Item>
 
-        {/* Pişirme süresi için form alanı */}
+        <Form.Item
+          label="Kullanılacak Malzemeler ve Oranları"
+          name="stuff"
+          rules={[{ required: true, message: 'Lütfen malzemeleri girin!' }]}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+
         <Form.Item
           label="Pişirme Süresi (Dakika)"
           name="time"
-          rules={[{ required: true, message: 'Lütfen pişirme süresini girin!' }]} // Zorunlu alan kuralları
+          rules={[{ required: true, message: 'Lütfen pişirme süresini girin!' }]}
         >
-          <InputNumber min={1} /> {/* Süre girişi için sayı input alanı */}
+          <InputNumber min={1} style={{ width: '100%' }} />
         </Form.Item>
 
-        {/* Zorluk seviyesi için form alanı */}
         <Form.Item
           label="Zorluk Seviyesi"
           name="difficulty"
-          rules={[{ required: true, message: 'Lütfen zorluk seviyesini girin!' }]} // Zorunlu alan kuralları
+          rules={[{ required: true, message: 'Lütfen zorluk seviyesini girin!' }]}
         >
-          <Input /> {/* Zorluk seviyesi girişi için input alanı */}
+          <Input />
         </Form.Item>
 
-        {/* Resim yükleme için form alanı */}
         <Form.Item
           label="Resim Yükle"
           name="image"
         >
           <Upload
-            listType="picture" // Resim tipi yükleme listesi
-            fileList={fileList} // Yüklenen dosya listesini belirtiyoruz
-            onChange={handleFileChange} // Dosya değişikliğinde çalışacak fonksiyon
-            beforeUpload={() => false} // Otomatik yüklemeyi engelliyoruz
+            listType="picture"
+            fileList={fileList}
+            onChange={handleFileChange}
+            beforeUpload={() => false}
           >
-            <Button icon={<UploadOutlined />}>Resim Yükle</Button> {/* Resim yükleme butonu */}
+            <Button icon={<UploadOutlined />}>Resim Yükle</Button>
           </Upload>
         </Form.Item>
 
-        {/* Kaydet butonu */}
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Kaydet
           </Button>
         </Form.Item>
       </Form>
+
     </div>
   );
 };
 
-// Bileşeni dışa aktarıyoruz
 export default AddRecipe;

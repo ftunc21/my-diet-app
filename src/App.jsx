@@ -14,7 +14,6 @@ import Recipes from './components/Recipes';
 import Auth from './components/Auth';
 import AddRecipe from './components/AddRecipe';
 import RecipeSlider from './components/RecipeSlider';
-import DietSlider from './components/DietSlider';
 import { AuthProvider, useAuth } from './AuthContext';  // AuthProvider ve useAuth'u import ediyoruz
 import DietResult from './components/DietResults';
 import { Layout } from 'antd';  // Ant Design Layout bileşenini import ediyoruz
@@ -23,6 +22,8 @@ import Footer from './components/Footer';
 import { RecipesProvider } from './contexts/RecipesContext';
 import { DietsProvider } from './contexts/DietsContext';
 import RecipeDetail from './contexts/RecipeDetail';
+import AboutUs from './components/AboutUs';
+import FormAboutUs from './components/FormAboutUs';
 
 // Layout bileşeninden Content bileşenini çıkartıyoruz
 const { Content } = Layout;
@@ -50,12 +51,13 @@ const App = () => {
                             <Header />
                             <Content className="flex-grow">
                                 <Routes>
-                                    <Route path="/" element={<><Home /><RecipeSlider /><DietSlider /></>} />
+                                    <Route path="/" element={<><Home /><RecipeSlider /></>} />
                                     <Route path="/create-diet" element={<PrivateRoute><CreateDiet /></PrivateRoute>} />
                                     <Route path="/diet-plans" element={<DietPlans />} />
                                     <Route path="/recipes" element={<Recipes />} />
                                     <Route path="/recipe/:id" element={<RecipeDetail />} />
                                     <Route path="/auth" element={<Auth />} />
+                                    <Route path="/about-us" element={<><AboutUs /><FormAboutUs /></>} />
                                     <Route path="/add-recipe" element={<PrivateRoute><AddRecipe /></PrivateRoute>} />
                                     <Route path="/custom-diet" element={<PrivateRoute><CustomDiet /></PrivateRoute>} />
                                     <Route path="/diet-result" element={<PrivateRoute><DietResult /></PrivateRoute>} />

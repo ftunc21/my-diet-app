@@ -1,45 +1,45 @@
-// React kütüphanesini ve gerekli fonksiyonları import ediyoruz
+
 import React, { useState } from 'react';
 
-// Kullanıcı yetkilendirme fonksiyonlarını kullanmak için useAuth hook'unu çağırıyoruz
+
 import { useAuth } from '../AuthContext';
 
-// Ant Design kütüphanesinden bazı bileşenleri import ediyoruz
+
 import { Input, Button, Checkbox } from 'antd';
 
-// useNavigate fonksiyonunu react-router-dom kütüphanesinden import ediyoruz
+
 import { useNavigate } from 'react-router-dom';
 
-// Auth adlı bileşeni tanımlıyoruz
+
 const Auth = () => {
-    // Yetkilendirme işlemleri için gerekli fonksiyonları useAuth hook'u ile alıyoruz
+
     const { login, register } = useAuth();
 
-    // Giriş mi yoksa kayıt mı yapılacağını belirlemek için state kullanıyoruz
+
     const [isLogin, setIsLogin] = useState(true);
 
-    // Kullanıcı adı, şifre, email ve şifre onaylama bilgilerini yönetmek için state kullanıyoruz
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    // Yönlendirme fonksiyonunu kullanmak için useNavigate hook'unu çağırıyoruz
+
     const navigate = useNavigate();
 
-    // Form gönderildiğinde çalışacak olan fonksiyonu tanımlıyoruz
+
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Sayfanın yenilenmesini engelliyoruz
+        e.preventDefault(); // Formun sayfayı yenilemesini engelliyoruz
         if (isLogin) {
-            // Giriş işlemi
-            await login(username, password); // login fonksiyonunu çağırıyoruz
+
+            await login(username, password);
         } else {
-            // Kayıt işlemi
+
             if (password === confirmPassword) {
-                // Şifreler eşleşiyorsa kayıt fonksiyonunu çağırıyoruz
+
                 await register(username, password, email);
             } else {
-                // Şifreler eşleşmiyorsa uyarı mesajı gösteriyoruz
+
                 alert('Şifreler aynı değil');
             }
         }
